@@ -1,0 +1,249 @@
+@import styles/colors
+@import styles/global
+@import styles/media
+
+$controls-icon-color: $primary
+$text-color: #444
+$main-player-background: #fcf9f9
+
+.player
+    position: fixed
+    left: 0
+    bottom: 0
+    height: $player-height
+    display: flex
+    align-items: center
+    background: $secondary
+    width: 100%
+    color: $licorice
+    z-index: 10
+    canvas
+        cursor: pointer
+        @include remove_select
+    @include media_979
+        flex-direction: column
+        height: auto
+        padding: 1em
+        canvas
+            margin: 1em 0
+
+.player_content_inner
+    display: flex
+    align-items: center
+    @include media_979
+        width: 100%
+        flex-direction: column
+
+.player_song_cover
+    height: 100%
+    width: $player-height
+    @include media_979
+        display: none
+        width: 300px
+        height: 300px
+
+.player_song_no_cover_image
+    padding-left: 1.5rem
+
+.player_song_info
+    margin: 0 2em
+    width: 220px
+    @include media_979
+        margin: 0
+        padding: 0
+        display: flex
+        justify-content: center
+        width: 100%
+        overflow: hidden
+        
+
+.player_song_info_artists
+    @include media_979
+        padding-right: 1em
+        
+
+.player_song_info_artist
+    font-family: 'MontserratMedium'
+    font-size: 0.65em
+    cursor: pointer
+    color: darken($primary,20%)
+    display: inline-block
+    line-height: 0.8
+    &+&::before
+        content:"&"
+        margin: 0 .3em
+        display: inline-block
+        font-family: 'Montserrat'
+    @include media_979
+        font-size: 0.85em
+        line-height: normal
+
+.player_song_info_inner
+    @include media_979
+        display: flex
+        align-items: center
+        animation: scroll-left 15s linear infinite
+        white-space: nowrap
+
+.player_song_info_title
+    margin-top: .3em
+    line-height: 0.9
+    color: #444
+    font-size: .7em
+    @include media_979
+        line-height: normal
+        margin: 0
+        font-size: 0.85em
+
+
+.player_time_wrapper
+    display: flex
+    @include media_979
+        position: relative
+        justify-content: center
+        width: 100%
+        padding: 0 40px
+        .player_time_info
+            position: static
+            padding: 0
+        .player_time_divider
+            display: none
+        .player_time
+            width: auto
+            font-size: .9em
+            position: absolute
+            left: 0
+            top: 50%
+            transform: translateY(-50%)
+        .player_time_duration
+            position: absolute
+            right: 0
+            top: 50%
+            transform: translateY(-50%)
+            width: auto
+
+.player_time_info
+    position: relative
+    display: flex
+    padding-left: 2rem
+
+.player_time
+    font-weight: bold
+    width: 3rem
+    position: absolute
+    font-size: .9em
+    left: -.3em
+    top: -.3em
+    color: $primary
+
+.player_time_divider
+    padding: 0 .5rem
+    color: #444
+
+.player_time_duration
+    width: 3rem
+    padding-top: .5em
+    font-weight: bold
+    font-size: .8em
+    color: #616161
+    @include media_979
+        font-size: .9em
+        padding-top: 0
+
+.controls
+    margin: 0 2em
+    display: flex
+    align-items: center
+    @include media_979
+        width: 100%
+        display: grid
+        grid-template-columns: 1fr auto auto auto 1fr
+        grid-template-areas: "repeat_btn prev_btn play_btn next_btn playlist_btn"
+        margin: 0
+
+.controls_icon
+    width: 15px
+    height: 15px
+    position: absolute
+    left: 50%
+    top: 50%
+    transform: translate(-50%,-50%)
+    svg
+        width: 100%
+        height: 100%
+
+.controls_button
+    background: #e2e2e270
+    border-radius: 50%
+    display: flex
+    align-items: center
+    justify-content: center
+    cursor: pointer
+    position: relative
+    width: 35px
+    height: 35px
+    @include remove_select
+
+.controls_button_prev
+    transform: scale(-1)
+    margin-right: 1em
+    @include media_979
+        grid-area: prev_btn
+
+.controls_button_pause,.controls_button_play
+    width: 40px
+    height: 40px
+    .controls_icon
+        width: 15px
+        height: 15px
+    @include media_979
+        grid-area: play_btn
+
+.controls_button_next
+    margin-left: 1em
+    @include media_979
+        grid-area: next_btn
+
+.controls_btn_secondary
+    background: none
+    transition: all .3s ease
+    width: 30px
+    height: 30px
+    .controls_icon
+        width: 20px
+        height: 20px
+    path
+        fill: gray
+
+.controls_button_repeat
+    margin-left: 3em
+    @include media_979
+        grid-area: repeat_btn
+        margin: 0 auto
+
+.controls_button_playlist
+    margin-left: 1em
+    .controls_icon
+        width: 15px
+        height: 15px
+    @include media_979
+        grid-area: playlist_btn
+        margin: 0 auto
+
+.controls_btn_active
+    background: #e2e2e270
+    path
+        fill: darken($primary,5%)
+
+
+@keyframes scroll-left
+    0%
+        transform: translateX(100%)
+        opacity: 0
+    10%
+        opacity: 1
+    90%
+        opacity: 1
+    100%
+        opacity: 0
+        transform: translateX(-100%)

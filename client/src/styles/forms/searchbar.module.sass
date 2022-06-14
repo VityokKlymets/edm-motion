@@ -1,0 +1,92 @@
+@import styles/colors
+@import styles/media
+@import styles/global
+
+$slideDistance: 50px
+
+$inputWidth: 220px
+$inputHeight: 30px
+
+$btnSize: 35px
+
+$searchBarWidth: $inputWidth + $slideDistance
+$searchBarHeight: $btnSize
+
+.container
+    position: relative
+    height: 100%
+    display: flex
+    align-items: center
+
+.search_box
+    position: absolute
+    right: 0
+    width: $searchBarWidth
+    height: $searchBarHeight
+    
+.input
+    position: absolute
+    top: 50%
+    transform: translateY(-50%)
+    right: 0
+    width: 0px
+    height: $inputHeight
+    padding: 0 1em
+    opacity: 0
+    outline: none
+    font-size: 15px
+    border-radius: $btnSize
+    color: #29313a
+    border: 1px solid $primary
+    transition: all 0.8s ease
+    ::-webkit-input-placeholder
+        color: $primary
+    ::-moz-placeholder
+        color: $primary
+    :-ms-input-placeholder
+        color: $primary
+    :-moz-placeholder
+        color: $primary
+
+.btn
+    position: absolute
+    width: $btnSize
+    height: $btnSize
+    border-radius: 50%
+    right: 0
+    top: 0
+    cursor: pointer
+    text-align: center
+    line-height: 80px
+    font-size: 20px
+    color: #fff
+    transition: all 0.8s ease
+    display: flex
+    justify-content: center
+    align-items: center
+    @include remove_select
+    svg
+        width: $btnSize * 0.6
+        height: $btnSize * 0.6
+        fill: $header-color
+
+.search_box__active
+    .input
+        width: $inputWidth
+        right: $slideDistance
+        opacity: 1
+        @include media_979
+            right: $slideDistance / 2
+    .btn
+        transform: rotate(-360deg)
+        right: $slideDistance
+        @include media_979
+            right: $slideDistance / 2
+        svg
+            fill: $primary
+
+@keyframes spin
+    0%
+        transform: rotate(0deg)
+    100%
+        transform: rotate(380deg)

@@ -1,0 +1,81 @@
+@import 'styles/colors.sass'
+@import 'styles/media'
+
+.news_item
+    padding: 1.5em
+    display: flex
+    flex-direction: column
+    background: #fff
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, .08)
+    margin: 0 auto
+    max-width: 600px
+    &+&
+        margin-top: 40px
+    @include media_979
+        padding: 1em
+
+.news_item_attached
+    position: relative
+    &::after
+        content: ""
+        position: absolute
+        top: -15px
+        left: -15px
+        transform: scaleX(-1)
+        width: 30px
+        height: 30px
+        background: url('/icons/news-attach-pin.svg') no-repeat
+        background-size: contain
+        @include media_979
+            display: none
+
+.news_item_title
+    padding: 0
+    margin: 0
+    margin-bottom: 1rem
+    font-size: 1.2em
+    letter-spacing: .025em
+    &::first-letter
+        text-transform: uppercase
+    @include media_979
+        margin-top: 1rem
+        font-size: 1em
+
+.news_item_genre
+    line-height: 22px
+
+.news_item_release_date
+    line-height: 22px
+
+.news_item_labels,.news_item_genre,.news_item_release_date
+    strong
+        &::after
+            content: "  "
+    a
+        color: $primary
+        transition: all .3s ease-in-out
+        &:hover
+            opacity: .6
+
+.elapsed_time
+    font-size: 14px
+    text-align: right
+    color: $indygo-dye
+    margin-bottom: 1em
+
+.news_item_info
+    font-size: .9em
+    margin-bottom: 1rem
+    a+a::before
+        content: ', '
+
+.news_item_description
+    margin-bottom: 1rem
+    @include media_979
+        font-size: .95em
+    
+
+.news_item_picture
+    width: 100%
+    height: auto
+    align-self: center

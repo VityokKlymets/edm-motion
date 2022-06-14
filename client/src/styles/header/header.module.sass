@@ -1,0 +1,79 @@
+@import styles/colors
+@import styles/global
+@import styles/media
+
+$logo-size: 35px
+
+.page
+    padding-top: $header-height
+
+.logo
+    color: $header-color
+    font-size: 18px
+    transition: .1s linear
+    position: relative
+    cursor: pointer
+    display: flex
+    align-items: center
+    &::before
+        margin-right: .5em
+        content: ''
+        min-width: $logo-size
+        width: $logo-size
+        height: $logo-size
+        background: url('/logo-120x120.png') no-repeat
+        background-size: cover
+    &:hover
+        opacity: 0.8
+        color: $header-color
+    @include remove_select
+    @include media_979
+        font-size: 16px
+
+.logo_loading
+    &::before
+        animation: spin 1.5s ease-in-out infinite
+
+.header
+    position: fixed
+    display: flex
+    left: 0
+    top: 0
+    height: $header-height
+    width: 100%
+    align-items: center
+    justify-content: space-between
+    z-index: 10
+    padding: 0 100px
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, .03)
+    @include media_979
+        padding: 0 1em
+    &::before
+        content: ""
+        position: absolute
+        left: 0
+        top: 0
+        right: 0
+        bottom: 0
+        background: $header-bg
+        z-index: -1
+    nav
+        margin-left: auto
+        padding-right: 1.5rem
+        display: flex
+        align-items: center
+        @include media_979
+            display: none
+        a
+            color: $navy
+            transition: .2s linear
+            &:hover
+                opacity: .8
+            & + a
+                margin-left: 1rem
+
+@keyframes spin
+    0%
+        transform: rotate(0deg)
+    100%
+        transform: rotate(380deg)

@@ -1,0 +1,43 @@
+@import styles/colors
+
+.btn
+    cursor: pointer
+    min-width: 40px
+    min-width: 40px
+    width: 40px
+    height: 40px
+    display: flex
+    justify-content: center
+    align-items: center
+    position: relative
+    background: $primary
+    &:hover
+        .play_icon
+            opacity: 1
+        .music_icon
+            opacity: 0
+
+.btn_icon
+    width: 20px
+    height: 20px
+    position: absolute
+    transition: all .3s ease
+    opacity: 0
+    path
+        fill: $white
+
+.music_icon
+    opacity: 1
+
+.btn_current
+    .music_icon
+        opacity: 0
+    .play_icon
+        opacity: 1
+    .pause_icon
+        opacity: 0
+    &.btn_play
+        .play_icon
+            opacity: 0
+        .pause_icon
+            opacity: 1

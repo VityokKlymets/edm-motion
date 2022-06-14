@@ -1,0 +1,145 @@
+@import styles/colors
+@import styles/media
+@import styles/global
+
+@font-face
+    font-family: 'Montserrat'
+    src: url('/fonts/Montserrat/Montserrat-Regular.ttf') format('truetype'),
+    font-weight: normal
+    font-style: normal
+
+@font-face
+    font-family: 'MontserratBold'
+    src: url('/fonts/Montserrat/Montserrat-Bold.ttf') format('truetype'),
+    font-weight: normal
+    font-style: normal
+
+@font-face
+    font-family: 'MontserratMedium'
+    src: url('/fonts/Montserrat/Montserrat-Medium.ttf') format('truetype'),
+    font-weight: normal
+    font-style: normal
+
+html,body,#__next
+    height: 100%
+
+*,*::after
+    box-sizing: border-box
+    margin: 0
+    padding: 0
+    list-style: none
+    text-decoration: none
+
+button
+    background: none
+    outline: none
+    border: 0
+
+body
+    font-family: 'Montserrat', sans-serif
+    scroll-behavior: smooth
+
+a
+    cursor: pointer
+
+select
+    -webkit-appearance: none
+    -moz-appearance: none
+    -ms-appearance: none
+    appearance: none
+    outline: 0
+    box-shadow: none
+    border: 0 !important
+    background-image: none
+    font-family: 'Montserrat'
+
+select::-ms-expand
+    display: none
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus
+    background: #fff
+    -webkit-box-shadow: 0 0 0 30px white inset !important
+
+.page
+    padding-top: $header-height + 20px
+    background: $page-bg
+    min-height: 100%
+
+.login_page,.signup_page
+    padding-top: 100px
+    display: grid
+    grid-template-rows: 1fr
+    grid-template-columns: 400px
+    justify-content: center
+
+.owerflow-x-auto
+    overflow-x: auto
+
+.d-block
+    display: block
+
+.d-none
+    display: none
+
+.title-primary
+    color: $primary
+    font-size: 14px
+    font-family: 'Open Sans', sans-serif
+    text-transform: uppercase
+    letter-spacing: .025px
+
+.text-bold
+    font-family: 'MontserratBold'
+
+.text-medium
+    font-family: 'MontserratMedium'
+
+.page-title
+    font-family: 'MontserratMedium'
+    font-weight: normal
+    @include media_979
+        font-size: 1.3em
+    &+.page-description
+        margin-top: 1rem
+        padding-left: 1rem
+        @include media_979
+            padding-left: 0
+    &+.page-subtitle
+        margin-top: .2rem
+
+.page-subtitle
+    font-size: .8em
+    font-family: 'Montserrat'
+    font-weight: normal
+    color: #444444
+
+.page-description
+    font-size: 1em
+
+strong
+    font-family: MontserratMedium
+    color: #444444
+    font-weight: normal
+
+p+p
+    margin-top: 1rem
+
+.genre-list
+    display: block
+    line-height: 2
+
+.genre-link
+    color: $primary
+    &+&::before
+        content: ' | '
+        display: inline-block
+        color: #ccc
+        padding: 0 .6em

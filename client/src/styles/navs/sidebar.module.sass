@@ -1,0 +1,42 @@
+@import styles/colors
+@import styles/media
+
+.sidebar
+    display: flex
+    flex-direction: column
+    @include media_979
+        display: none
+        
+.link
+    display: flex
+    align-items: center
+    color: $primary
+    text-transform: capitalize
+    letter-spacing: .025px
+    font-size: 14px
+    opacity: .5
+    transition: all .3s ease
+    position: relative
+    &+&
+        margin-top: .8em
+    &:hover
+        opacity: 1
+
+.link_active
+    opacity: 1
+    &::before
+        content: ""
+        position: absolute
+        display: block
+        height: .4em
+        width: .4em
+        background: $dark-sky-blue
+        border-radius: 50%
+        left: -16px
+
+.link_icon
+    width: 20px
+    height: 20px
+    margin-right: 14px
+    svg
+        stroke: $dark-sky-blue

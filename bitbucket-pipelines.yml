@@ -1,0 +1,100 @@
+# This is an example Starter pipeline configuration
+# Use a skeleton to build, test and deploy using manual and parallel steps
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+
+image: atlassian/default-image:3
+definitions:
+  services:
+    docker:
+      memory: 2048 
+
+  next-build: &next-build |-
+            unset CI # for not treating warning as error when running yarn build
+
+            docker login -u $HUB_USERNAME -p $HUB_PASSWORD
+
+            # Tag generation must be kept in sync with `build-push-script`
+            THIS_TAG=$(git describe --tags --abbrev=0)
+            IMG_NAME=emmotion_client
+            IMG_TAG=$IMG_REG_NEW/$IMG_NAME:$THIS_TAG
+            IMG_TAG_LATEST=$IMG_REG_NEW/$IMG_NAME:latest
+
+            if DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect $IMG_TAG > /dev/null; then
+              echo "Image $IMG_TAG already exists, skipping next build"
+            else
+              docker build -t $IMG_TAG --build-arg SSH_KEY="$(cat /opt/atlassian/pipelines/agent/data/id_rsa)" --build-arg SSH_KEY_PUB="$(cat /opt/atlassian/pipelines/agent/data/id_rsa.pub)" ./client
+              docker push $IMG_TAG
+              docker tag $IMG_TAG $IMG_TAG_LATEST
+              docker push $IMG_TAG_LATEST
+            fi
+  api-build: &api-build |-
+            unset CI # for not treating warning as error when running yarn build
+
+            docker login -u $HUB_USERNAME -p $HUB_PASSWORD
+
+            # Tag generation must be kept in sync with `build-push-script`
+            THIS_TAG=$(git describe --tags --abbrev=0)
+            IMG_NAME=emmotion_api
+            IMG_TAG=$IMG_REG_NEW/$IMG_NAME:$THIS_TAG
+            IMG_TAG_LATEST=$IMG_REG_NEW/$IMG_NAME:latest
+
+            if DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect $IMG_TAG > /dev/null; then
+              echo "Image $IMG_TAG already exists, skipping next build"
+            else
+              docker build -t $IMG_TAG --build-arg SSH_KEY="$(cat /opt/atlassian/pipelines/agent/data/id_rsa)" --build-arg SSH_KEY_PUB="$(cat /opt/atlassian/pipelines/agent/data/id_rsa.pub)" ./api
+              docker push $IMG_TAG
+              docker tag $IMG_TAG $IMG_TAG_LATEST
+              docker push $IMG_TAG_LATEST
+            fi
+pipelines:
+  pull-requests:
+      '**':
+        - step:
+            name: Changelog check
+            image: atlassian/default-image:3
+            script:
+              - python3 /home/pipelines/validate_changelog.py
+  branches:
+    master:
+      - step:
+          name: Automatic git version tag
+          script:
+            - declare -x VERSION=$(grep ^##\  CHANGELOG.md | head -n 1 | cut -d '[' -f 2 | cut -d ']' -f 1)
+            - echo $VERSION
+            - if [[ $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then echo "Version format is correct."; else ( echo "Version format is not valid. Expected format x.y.z (only numbers and two dots)" && exit 1 ); fi
+            - case "$(git symbolic-ref --short -q HEAD)" in "master") SUB="alpha";; "test") echo SUB="beta";; "acp") echo SUB="rc";; "prod") SUB="";; esac
+            - VERSION="$VERSION-$SUB"
+            - echo $VERSION
+            - declare -x REPO_TAG=$(git describe --tags)
+            - echo $REPO_TAG
+            - if [[ "$VERSION" != "$REPO_TAG" ]]; then (git tag $VERSION && git push origin --tags) || exit 1 && echo "Pushing $VERSION successfully to repository."; fi
+
+      - step:
+          name: Build Client
+          script:
+            - *next-build
+          services:
+            - docker
+      - step:
+          name: Build Api
+          script:
+            - *api-build
+            - zip -r build:$(git describe --tags --abbrev=0).zip bitbucket-pipelines.yml  nginx/
+          services:
+            - docker
+          artifacts: 
+          - build:*.zip
+
+      - step:
+          name: Deploy to Production
+          deployment: production
+          script:
+            - pipe: atlassian/azure-web-apps-deploy:1.0.1
+              variables:
+                AZURE_APP_ID: $AZURE_APP_ID
+                AZURE_PASSWORD: $AZURE_PASSWORD
+                AZURE_TENANT_ID: $AZURE_TENANT_ID
+                AZURE_RESOURCE_GROUP: $AZURE_RESOURCE_GROUP
+                AZURE_APP_NAME: $AZURE_APP_NAME
+                ZIP_FILE: build:$(git describe --tags --abbrev=0).zip

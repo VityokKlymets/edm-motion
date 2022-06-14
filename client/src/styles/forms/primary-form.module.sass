@@ -1,0 +1,76 @@
+@import styles/colors.sass
+
+$input-height: 35px
+$icon-size: 20px
+
+.primary
+    position: relative
+    display: flex
+    flex-direction: column
+    max-width: 400px
+    button[type='submit']
+        background-color: $dark-green
+        align-self: flex-start
+        color: $baby-powder
+        border-radius: 5px
+        margin-top: 1rem
+        padding: .8em 1.2em
+        cursor: pointer
+        transition: opacity .3s ease
+        &:hover
+            opacity: .9
+.error
+    color: $jelly-bean
+    font-size: .8rem
+    font-weight: bold
+    padding-top: 1em
+
+.form_field
+    display: flex
+    flex-direction: column
+    position: relative
+    input
+        outline: none
+        border: 0
+        box-shadow: 1px 2px 10px rgba(255, 255, 255, .1)
+        font-size: 1em
+        display: flex
+        align-items: center
+        background: #fff
+        height: $input-height
+    label
+        padding-bottom: .7rem
+        font-weight: 400
+        font-size: .9em
+        user-select: none
+        margin-top: 1.5rem
+    &.required
+        .label::after
+            content: '*'
+            vertical-align: top
+            color: $jelly-bean
+    & + &
+        margin-top: 1.5rem
+    &::placeholder
+        font-size: 0.8em
+    &.form_field_with_icon
+        input
+            padding-left: $icon-size + 10px
+
+    &.form_field_type_checkbox
+        flex-direction: row
+        align-items: center
+        label
+            order: 1
+            padding-bottom: 0
+            padding-left: 1em
+            cursor: pointer
+
+.form_field_icon
+    background-repeat: no-repeat
+    width: $icon-size
+    height: $icon-size
+    background-size: cover
+    position: absolute
+    left: 0
+    bottom: ($input-height - $icon-size) / 2

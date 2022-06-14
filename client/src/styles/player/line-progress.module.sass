@@ -1,0 +1,33 @@
+@import styles/colors
+
+$slider-size: 14px
+
+.container
+    width: 100%
+    position: relative
+    padding: 1em 0
+    margin: 0 $slider-size/2
+
+.line
+    position: absolute
+    left: 0
+    top: 50%
+    transform: translateY(-50%)
+    transition: all .1s linear
+    height: 2px
+    width: 100%
+    background: $silver
+    
+.progress_line
+    background: $primary
+
+.slider
+    position: absolute
+    right: 0
+    top: 50%
+    transform: translate(50%,-50%)
+    width: $slider-size
+    height: $slider-size
+    background: inherit
+    border-radius: 50%
+    

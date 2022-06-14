@@ -1,0 +1,12 @@
+default: # default connection
+  type: postgres
+  username: postgres@emmotionpsql
+  password: 848965vityokVK@
+  host: emmotionpsql.postgres.database.azure.com
+  port: 5432
+  database: emmotion
+  entities: [models/**/*.*]
+  migrations: [migrations/**/*.*]
+  cli:
+    entitiesDir: src/models
+    migrationsDir: src/migrations
